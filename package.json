@@ -6,9 +6,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --base-href /yadro-test-task/",
-    "copy-404": "copy dist\\yadro-test-task\\browser\\index.html dist\\yadro-test-task\\browser\\404.html",
-    "predeploy": "npm run build",
-    "deploy": "npm run build && npm run copy-404 && npx angular-cli-ghpages --dir=dist/yadro-test-task/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
