@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../models/user.interface';
 import { UserFacadeService } from '../../services/user-facade/user-facade-service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
@@ -9,6 +9,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-user-detail-info',
@@ -18,16 +19,20 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzGridModule,
     CommonModule,
     NzIconModule,
-    NzSpinModule
+    NzSpinModule,
+    NzButtonModule
   ],
   templateUrl: './user-detail-info.html',
   styleUrl: './user-detail-info.scss',
 })
 export class UserDetailInfo implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly userFacadeService = inject(UserFacadeService);
+
   private readonly destroy$ = new Subject<void>();
   readonly loading$ = new BehaviorSubject(false);
-  private readonly userFacadeService = inject(UserFacadeService);
+
   id: string | null = '';
   user: User | null = null;
 
@@ -45,5 +50,9 @@ export class UserDetailInfo implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete()
+  }
+
+  handleNavigate() {
+    this.router.navigate(["/users"])
   }
 }

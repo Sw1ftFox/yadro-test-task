@@ -1,9 +1,9 @@
 <nz-spin nzTip="Загрузка..." [nzSpinning]="loading$.getValue()">
-  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event)" style="margin-top: 20px">
-    <nz-form-item style="display: flex; align-items: center; justify-content: center;">
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event)" style="margin-top: 20px; max-width: 100%;">
+    <nz-form-item style=" display: flex; align-items: center; justify-content: center;">
       <nz-radio-group formControlName="mode">
-        <label nz-radio-button nzValue="add">Добавление</label>
-        <label nz-radio-button nzValue="edit">Редактирование</label>
+        <label nz-radio-button nzValue="add" style="min-width: 130px; text-align: center;">Добавление</label>
+        <label nz-radio-button nzValue="edit" style="min-width: 130px; text-align: center;">Редактирование</label>
       </nz-radio-group>
     </nz-form-item>
     <nz-form-item>
@@ -43,7 +43,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <nz-form-control style="text-align: center;">
         @if (form.controls.mode.value === "add") {
         <button nz-button nzType="primary" [disabled]="!form.valid || loading$.getValue()">Добавить</button>
         } @else {
