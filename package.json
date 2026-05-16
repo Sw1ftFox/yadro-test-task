@@ -1,10 +1,14 @@
 {
   "name": "yadro-test-task",
   "version": "1.0.0",
+  "homepage": "https://Sw1ftFox.github.io/yadro-test-task",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href /yadro-test-task/",
+    "copy-404": "copy dist\\yadro-test-task\\browser\\index.html dist\\yadro-test-task\\browser\\404.html",
+    "predeploy": "npm run build",
+    "deploy": "npm run build && npm run copy-404 && npx angular-cli-ghpages --dir=dist/yadro-test-task/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -38,6 +42,7 @@
     "@angular/cli": "^20.3.26",
     "@angular/compiler-cli": "^20.3.0",
     "@types/jasmine": "~5.1.0",
+    "gh-pages": "^6.3.0",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
