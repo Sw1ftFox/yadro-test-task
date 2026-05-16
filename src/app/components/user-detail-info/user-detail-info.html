@@ -73,9 +73,21 @@
       </nz-card>
     </div>
   </div>
-  <button (click)="handleNavigate()" nz-button nzType="default"
-    style="display: flex; align-items: center; gap: 3px; margin-top: 20px;">
-    <nz-icon nzType="arrow-left" nzTheme="outline" />
-    Вернуться
-  </button>
+
+  <div nz-flex [nzJustify]="'flex-start'" [nzAlign]="'center'" [nzGap]="20" style="width: 100%">
+    <button (click)="handleNavigate()" nz-button nzType="default"
+      style="display: flex; align-items: center; gap: 3px; margin-top: 20px;">
+      <nz-icon nzType="arrow-left" nzTheme="outline" />
+      Вернуться
+    </button>
+    <button (click)="showModal()" nz-button nzType="default" nzDanger
+      style="display: flex; align-items: center; gap: 3px; margin-top: 20px;">
+      <nz-icon nzType="delete" nzTheme="outline" />
+      Удалить
+    </button>
+  </div>
 </nz-spin>
+
+<nz-modal [(nzVisible)]="isModalOpen" nzTitle='Вы уверены, что хотите удалить этого пользователя?' nzOkText='Да'
+  nzOkType='primary' [nzOkDanger]="true" nzCancelText='Нет' (nzOnOk)="confirmDelete()" (nzOnCancel)="cancelDelete()">
+</nz-modal>

@@ -10,6 +10,9 @@ import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-user-detail-info',
@@ -20,7 +23,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     CommonModule,
     NzIconModule,
     NzSpinModule,
-    NzButtonModule
+    NzButtonModule,
+    NzFlexModule,
+    NzModalModule
   ],
   templateUrl: './user-detail-info.html',
   styleUrl: './user-detail-info.scss',
@@ -32,9 +37,11 @@ export class UserDetailInfo implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
   readonly loading$ = new BehaviorSubject(false);
+  readonly message = inject(NzMessageService);
 
   id: string | null = '';
   user: User | null = null;
+  isModalOpen = false;
 
   ngOnInit() {
     this.loading$.next(true);
@@ -54,5 +61,24 @@ export class UserDetailInfo implements OnInit, OnDestroy {
 
   handleNavigate() {
     this.router.navigate(["/users"])
+  }
+
+  showModal() {
+    this.isModalOpen = !this.isModalOpen;
+  }
+
+  confirmDelete() {
+    this.userFacadeService.delete(Number(this.id))
+    this.isModalOpen = false;
+    this.message.create('success', 'Успешно удалено!');
+    this.router.navigate(["/users"])
+  }
+
+  cancelDelete() {
+    this.isModalOpen = false;
+  }
+
+  handleDelete() {
+    this.isModalOpen = true;
   }
 }

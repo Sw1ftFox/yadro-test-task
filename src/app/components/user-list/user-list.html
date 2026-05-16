@@ -2,8 +2,16 @@
 <div nz-row [nzGutter]="{xs: 8, sm: 16, md: 24, lg: 32 }" class="list">
   @for (user of usersPerPage; track user.id) {
   <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="6" style="margin-top: 20px">
-    <nz-card [nzLoading]="false" [nzTitle]="user.name" style="height: 100%;" class="list__item"
+    <nz-card [nzLoading]="false" [nzTitle]="userTitle" style="height: 100%;" class="list__item"
       (click)="handleNavigate(user.id)">
+      <ng-template #userTitle>
+        <div nz-flex [nzJustify]="'space-between'" [nzAlign]="'center'" style="width: 100%">
+          <div style="font-size: 0.9rem;">{{user.name}}</div>
+          <button nz-button nzType="default" nzDanger (click)="handleDelete($event, user.id)">
+            <nz-icon nzType="delete" nzTheme="outline" />
+          </button>
+        </div>
+      </ng-template>
       <p>Никнейм: <strong>{{ user.username }}</strong></p>
       <span nz-typography>
         Почта:
@@ -15,3 +23,7 @@
 </div>
 <app-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [currentPage]="currentPage"
   [totalItems]="totalItems"></app-pagination>
+
+<nz-modal [(nzVisible)]="isModalOpen" nzTitle='Вы уверены, что хотите удалить этого пользователя?' nzOkText='Да'
+  nzOkType='primary' [nzOkDanger]="true" nzCancelText='Нет' (nzOnOk)="confirmDelete()" (nzOnCancel)="cancelDelete()">
+</nz-modal>

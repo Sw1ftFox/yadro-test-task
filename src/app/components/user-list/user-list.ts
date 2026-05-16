@@ -11,6 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { searchUser } from '../../utils/searchUser';
 import { UserSearch } from "../user-search/user-search";
 import { Pagination } from "../pagination/pagination";
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-user-list',
@@ -21,7 +26,11 @@ import { Pagination } from "../pagination/pagination";
     NzInputModule,
     FormsModule,
     UserSearch,
-    Pagination
+    Pagination,
+    NzFlexModule,
+    NzIconModule,
+    NzButtonModule,
+    NzModalModule
   ],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss',
@@ -34,16 +43,20 @@ export class UserList implements OnInit, OnDestroy {
   pageSize = 6;
   currentPage = 1;
 
+  isModalOpen = false;
+  selectedUserId: number | null = null;
+
   private readonly userFacadeService = inject(UserFacadeService);
   private readonly router = inject(Router);
   private readonly destroy$ = new Subject<void>();
+  readonly message = inject(NzMessageService);
 
   get totalItems(): number {
     return this.filteredUsers.length;
   }
 
   ngOnInit() {
-    this.userFacadeService.get().subscribe(users => {
+    this.userFacadeService.get().pipe(takeUntil(this.destroy$)).subscribe(users => {
       this.usersAll = users;
       this.filteredUsers = users;
       this.updatePage();
@@ -74,5 +87,32 @@ export class UserList implements OnInit, OnDestroy {
 
   handleNavigate(userId: number) {
     this.router.navigate(["/users", userId])
+  }
+
+  showModal() {
+    this.isModalOpen = !this.isModalOpen;
+  }
+
+  confirmDelete() {
+    if (this.selectedUserId !== null) {
+      this.userFacadeService.delete(this.selectedUserId)
+      this.usersAll = this.usersAll.filter(u => u.id !== this.selectedUserId);
+      this.filteredUsers = this.filteredUsers.filter(u => u.id !== this.selectedUserId);
+      this.updatePage();
+      this.isModalOpen = false;
+      this.selectedUserId = null;
+      this.message.create('success', 'Успешно удалено!');
+    }
+  }
+
+  cancelDelete() {
+    this.isModalOpen = false;
+    this.selectedUserId = null;
+  }
+
+  handleDelete(e: PointerEvent, userId: number) {
+    e.stopPropagation();
+    this.selectedUserId = userId;
+    this.isModalOpen = true;
   }
 }
