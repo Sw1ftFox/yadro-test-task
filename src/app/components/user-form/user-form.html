@@ -1,11 +1,13 @@
 <nz-spin nzTip="Загрузка..." [nzSpinning]="loading$.getValue()">
   <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event)" style="margin-top: 20px; max-width: 100%;">
+
     <nz-form-item style=" display: flex; align-items: center; justify-content: center;">
       <nz-radio-group formControlName="mode">
         <label nz-radio-button nzValue="add" style="min-width: 130px; text-align: center;">Добавление</label>
         <label nz-radio-button nzValue="edit" style="min-width: 130px; text-align: center;">Редактирование</label>
       </nz-radio-group>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Имя</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameErrorTpl">
@@ -17,6 +19,7 @@
         </ng-template>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Никнейм</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="usernameErrorTpl">
@@ -28,6 +31,7 @@
         </ng-template>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Почта</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
@@ -42,6 +46,7 @@
         </ng-template>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-control style="text-align: center;">
         @if (form.controls.mode.value === "add") {

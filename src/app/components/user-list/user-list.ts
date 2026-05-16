@@ -6,54 +6,70 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { User } from '../../models/user.interface';
+import { NzInputModule, NzInputSearchEvent } from 'ng-zorro-antd/input';
+import { FormsModule } from '@angular/forms';
+import { searchUser } from '../../utils/searchUser';
+import { UserSearch } from "../user-search/user-search";
+import { Pagination } from "../pagination/pagination";
 
 @Component({
   selector: 'app-user-list',
   imports: [
     NzCardModule,
     NzGridModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzInputModule,
+    FormsModule,
+    UserSearch,
+    Pagination
   ],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss',
 })
 export class UserList implements OnInit, OnDestroy {
-  readonly USERS_LIMIT = 6;
-  private usersAll: User[] = [];
+  usersAll: User[] = [];
+  filteredUsers: User[] = [];
   usersPerPage: User[] = [];
+
+  pageSize = 6;
   currentPage = 1;
-  totalItems = 0;
 
   private readonly userFacadeService = inject(UserFacadeService);
   private readonly router = inject(Router);
   private readonly destroy$ = new Subject<void>();
 
+  get totalItems(): number {
+    return this.filteredUsers.length;
+  }
+
   ngOnInit() {
-    this.userFacadeService.get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(users => {
-        if (users) {
-          this.usersAll = users;
-          this.totalItems = users.length;
-          this.updatePage();
-        }
-      });
+    this.userFacadeService.get().subscribe(users => {
+      this.usersAll = users;
+      this.filteredUsers = users;
+      this.updatePage();
+    });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  onSearch(e: NzInputSearchEvent) {
+    this.filteredUsers = searchUser(e.value, this.usersAll);
+    this.currentPage = 1;
+    this.updatePage();
   }
 
-  onPageIndexChange(page: number) {
+  onPageChange(page: number) {
     this.currentPage = page;
     this.updatePage();
   }
 
   private updatePage() {
-    const start = (this.currentPage - 1) * this.USERS_LIMIT;
-    const end = start + this.USERS_LIMIT;
-    this.usersPerPage = this.usersAll.slice(start, end);
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.usersPerPage = this.filteredUsers.slice(start, end);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   handleNavigate(userId: number) {

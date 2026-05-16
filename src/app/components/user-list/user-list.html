@@ -1,3 +1,4 @@
+<app-user-search (search)="onSearch($event)"></app-user-search>
 <div nz-row [nzGutter]="{xs: 8, sm: 16, md: 24, lg: 32 }" class="list">
   @for (user of usersPerPage; track user.id) {
   <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="6" style="margin-top: 20px">
@@ -12,7 +13,5 @@
   </div>
   }
 </div>
-<nz-pagination [nzPageIndex]="currentPage" [nzTotal]="totalItems" [nzPageSize]="USERS_LIMIT"
-  (nzPageIndexChange)="onPageIndexChange($event)"
-  style="margin-top: 20px; display: flex; width: 100%; justify-content: center;">
-</nz-pagination>
+<app-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [currentPage]="currentPage"
+  [totalItems]="totalItems"></app-pagination>

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -27,20 +27,19 @@ import { NzSpinModule } from "ng-zorro-antd/spin";
   templateUrl: './user-form.html',
   styleUrl: './user-form.scss',
 })
-export class UserForm implements OnInit, OnDestroy {
+export class UserForm implements OnDestroy {
   private readonly userFacadeService = inject(UserFacadeService);
   readonly message = inject(NzMessageService);
+
   private destroy$ = new Subject<void>();
   readonly loading$ = new BehaviorSubject(false);
+
   readonly form = new FormGroup({
     mode: new FormControl<ModesType>('add', [Validators.required]),
     name: new FormControl<string>('', [Validators.required]),
     username: new FormControl<string>('', [Validators.required]),
     email: new FormControl<string>('', [Validators.email, Validators.required]),
   });
-
-  ngOnInit(): void {
-  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

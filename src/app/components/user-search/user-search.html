@@ -1,0 +1,6 @@
+<div style="max-width: 300px; margin: 0 auto;">
+  <nz-input-search nzAllowClear (nzSearch)="search.emit($event)"
+    style="width: 100%; display: flex; justify-content: center; margin-top: 20px;" class="search">
+    <input nz-input [(ngModel)]="term" (ngModelChange)="onTermChange($event)" placeholder="Введите запрос..." />
+  </nz-input-search>
+</div>
