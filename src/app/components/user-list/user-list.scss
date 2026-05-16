@@ -1,0 +1,13 @@
+.list {
+  width: 100%;
+}
+
+.list__item {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.list__item:hover {
+  box-shadow: 1px 1px 4px rgb(148, 168, 255);
+  transform: translate(-3px, -3px);
+}

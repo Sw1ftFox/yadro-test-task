@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { Navigation } from "./components/navigation/navigation";
 
 @Component({
   selector: 'app-root',
@@ -11,9 +10,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
     RouterOutlet,
     NzTypographyModule,
     NzDividerModule,
-    RouterLink,
-    NzIconModule,
-    NzMenuModule
+    Navigation
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

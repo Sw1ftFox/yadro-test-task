@@ -1,16 +1,5 @@
-<h1 nz-typography [style]="'text-align: center;'">Тестовое задание</h1>
+<h1 nz-typography style="text-align: center;">Тестовое задание</h1>
 <nz-divider></nz-divider>
-<ul nz-menu nzMode="horizontal">
-  <li nz-menu-item nzSelected>
-    <a routerLink="/users">
-      <nz-icon nzType="user" /> Список пользователей
-    </a>
-  </li>
-  <li nz-menu-item>
-    <a routerLink="/users/form">
-      <nz-icon nzType="form" nzTheme="outline" /> Форма
-    </a>
-  </li>
-</ul>
+<app-navigation></app-navigation>
 
 <router-outlet></router-outlet>

@@ -1,1 +1,76 @@
-<p>user-detail-info works!</p>
+<nz-spin nzTip="Загрузка..." [nzSpinning]="loading$.getValue()">
+  <div nz-row [nzGutter]="[16, 24]">
+    <div nz-col [nzSpan]="24">
+      <nz-card [nzTitle]="'Пользователь: ' + (user?.name || '—')" [nzBordered]="true">
+        <div nz-row [nzGutter]="[16, 16]">
+          <div nz-col [nzXs]="24" [nzMd]="12">
+            <nz-descriptions [nzColumn]="1" [nzTitle]="'Основная информация'">
+              <nz-descriptions-item nzTitle="Никнейм">
+                {{ user?.username || '—' }}
+              </nz-descriptions-item>
+
+              <nz-descriptions-item [nzTitle]="EmailTitle">
+                <ng-template #EmailTitle>
+                  <div style="display: flex; align-items: center; gap: 3px;">
+                    <nz-icon nzType="mail" nzTheme="outline" /> Почта
+                  </div>
+                </ng-template>
+                <a [href]="'mailto:' + user?.email">{{ user?.email || '—' }}</a>
+              </nz-descriptions-item>
+
+              <nz-descriptions-item [nzTitle]="PhoneTitle">
+                <ng-template #PhoneTitle>
+                  <div style="display: flex; align-items: center; gap: 3px;">
+                    <nz-icon nzType="phone" nzTheme="outline" /> Телефон
+                  </div>
+                </ng-template>
+                {{ user?.phone || '—' }}
+              </nz-descriptions-item>
+
+              <nz-descriptions-item [nzTitle]="WebTitle">
+                <ng-template #WebTitle>
+                  <div style="display: flex; align-items: center; gap: 3px;">
+                    <nz-icon nzType="link" nzTheme="outline" /> Веб-сайт
+                  </div>
+                </ng-template>
+                <a [href]="'//' + user?.website" target="_blank">
+                  {{user?.website || '—' }}
+                </a>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </div>
+          <div nz-col [nzXs]="24" [nzMd]="12">
+            <nz-descriptions [nzColumn]="1" [nzTitle]="'Адрес и компания'">
+              <nz-descriptions-item [nzTitle]="AdressTitle">
+                <ng-template #AdressTitle>
+                  <div style="display: flex; align-items: center; gap: 3px;">
+                    <nz-icon nzType="home" nzTheme="outline" /> Адрес
+                  </div>
+                </ng-template>
+                @if (user?.address) {
+                {{ user?.address?.street }}, {{ user?.address?.suite }}<br />
+                {{ user?.address?.city }}, {{ user?.address?.zipcode }}
+                } @else {
+                —
+                }
+              </nz-descriptions-item>
+              <nz-descriptions-item [nzTitle]="CompanyTitle">
+                <ng-template #CompanyTitle>
+                  <div style="display: flex; align-items: center; gap: 3px;">
+                    <nz-icon nzType="global" nzTheme="outline" /> Компания
+                  </div>
+                </ng-template>
+                @if (user?.company) {
+                {{ user?.company?.name }}
+                } @else {
+                —
+                }
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</nz-spin>

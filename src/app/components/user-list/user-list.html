@@ -1,1 +1,14 @@
-<p>user-list works!</p>
+<div nz-row [nzGutter]="{xs: 8, sm: 16, md: 24, lg: 32 }" class="list">
+  @for (user of users$ | async; track user.id) {
+  <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="6" style="margin-top: 20px">
+    <nz-card [nzLoading]="false" [nzTitle]="user.name" style="height: 100%;" class="list__item"
+      (click)="handleNavigate(user.id)">
+      <p>Никнейм: <strong>{{ user.username }}</strong></p>
+      <span nz-typography>
+        Почта:
+        <a [href]="'mailto:' + user.email" target="_blank">{{ user.email }}</a>
+      </span>
+    </nz-card>
+  </div>
+  }
+</div>

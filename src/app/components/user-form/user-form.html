@@ -1,1 +1,56 @@
-<p>user-form works!</p>
+<nz-spin nzTip="Загрузка..." [nzSpinning]="loading$.getValue()">
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event)" style="margin-top: 20px">
+    <nz-form-item style="display: flex; align-items: center; justify-content: center;">
+      <nz-radio-group formControlName="mode">
+        <label nz-radio-button nzValue="add">Добавление</label>
+        <label nz-radio-button nzValue="edit">Редактирование</label>
+      </nz-radio-group>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Имя</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameErrorTpl">
+        <input nz-input formControlName="name" placeholder="Имя пользователя..." />
+        <ng-template #nameErrorTpl let-control>
+          @if (control.errors?.['required']) {
+          Пожалуйста, введите имя пользователя!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Никнейм</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="usernameErrorTpl">
+        <input nz-input formControlName="username" placeholder="Никнейм пользователя..." />
+        <ng-template #usernameErrorTpl let-control>
+          @if (control.errors?.['required']) {
+          Пожалуйста, введите никнейм пользователя!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Почта</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="email" placeholder="E-mail пользователя..." type="email" />
+        <ng-template #emailErrorTpl let-control>
+          @if (control.errors?.['email']) {
+          Некорректный E-mail!
+          }
+          @if (control.errors?.['required']) {
+          Пожалуйста, введите пользовательский E-mail!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        @if (form.controls.mode.value === "add") {
+        <button nz-button nzType="primary" [disabled]="!form.valid || loading$.getValue()">Добавить</button>
+        } @else {
+        <button nz-button nzType="primary" [disabled]="!form.valid || loading$.getValue()">Редактировать</button>
+        }
+        <button nz-button (click)="resetForm($event)">Сбросить</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-spin>
